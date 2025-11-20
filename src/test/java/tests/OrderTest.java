@@ -1,22 +1,16 @@
 package tests;
 
-import org.junit.After;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.chrome.ChromeOptions;
-import pages.MainPage;
 import pages.PersonalDataPage;
 import pages.RentalConditionsPage;
 
 import static org.junit.Assert.assertTrue;
 
 @RunWith(Parameterized.class)
-public class OrderTest {
+public class OrderTest extends BaseTest {
 
-    private WebDriver driver;
     private String orderButtonType;
     private String name;
     private String surname;
@@ -43,7 +37,7 @@ public class OrderTest {
         this.comment = comment;
     }
 
-    @Parameterized.Parameters
+    @Parameterized.Parameters(name = "Тестовые данные: кнопка {0}, клиент {1} {2}")
     public static Object[][] getOrderData() {
         return new Object[][]{
                 {"header", "Иван", "Иванов", "ул. Ленина, д. 1", "Тверская",
@@ -56,17 +50,9 @@ public class OrderTest {
 
     @Test
     public void testOrderScooter() {
-        ChromeOptions options = new ChromeOptions();
-        options.addArguments("--no-sandbox", "--disable-dev-shm-usage");
-        driver = new ChromeDriver(options);
 
-        driver.get("https://qa-scooter.praktikum-services.ru/");
-
-        MainPage mainPage = new MainPage(driver);
         PersonalDataPage personalDataPage = new PersonalDataPage(driver);
         RentalConditionsPage rentalConditionsPage = new RentalConditionsPage(driver);
-
-        mainPage.acceptCookies();
 
         if ("header".equals(orderButtonType)) {
             mainPage.clickOrderButtonHeader();
@@ -86,8 +72,4 @@ public class OrderTest {
         assertTrue("Модальное окно успешного оформления заказа должно отображаться", isSuccessModalDisplayed);
     }
 
-    @After
-    public void tearDown() {
-        driver.quit();
-    }
 }

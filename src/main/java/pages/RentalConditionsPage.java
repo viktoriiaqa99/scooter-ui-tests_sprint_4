@@ -23,11 +23,11 @@ public class RentalConditionsPage {
     private By orderButton = By.xpath(".//button[text()='Заказать' and contains(@class, 'Button_Middle__1CSJM')]");
 
     //локатор для модального окна подтверждения заказа
-    private By confirmationModal = By.className("Order_Modal__YZD3");
+    private By confirmationModal = By.xpath("//div[contains(@class, 'Order_Modal__YZ-d3')]//div[contains(text(), 'Хотите оформить заказ')]");
     //локатор для кнопки "Да" модального окна подтверждения заказа
-    private By confirmOrderButton = By.xpath(".//button[text()='Да']");
+    private By confirmOrderButton = By.xpath("//div[contains(@class, 'Order_Modal__YZ-d3')]//button[text()='Да']");
     //локатор для модального окна об успешном заказе
-    private By successModal = By.className("Order_ModalHeader__3FDaJ");
+    private By successModal = By.xpath(".//div[contains(@class, 'Order_ModalHeader__3FDaJ') and contains (text(), 'Заказ оформлен')]");
 
     public RentalConditionsPage(WebDriver driver) {
         this.driver = driver;

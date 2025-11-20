@@ -3,19 +3,13 @@ package tests;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.chrome.ChromeOptions;
-import pages.MainPage;
 import pages.FAQPage;
-import org.junit.After;
 
 import static org.junit.Assert.assertEquals;
 
 @RunWith(Parameterized.class)
-public class FAQTest {
+public class FAQTest extends BaseTest {
 
-    private WebDriver driver;
     private int questionIndex;
     private String expectedAnswerPart;
 
@@ -24,7 +18,7 @@ public class FAQTest {
         this.expectedAnswerPart = expectedAnswerPart;
     }
 
-    @Parameterized.Parameters
+    @Parameterized.Parameters(name = "Тестовые данные: вопрос {0}, ответ содержит: {1}")
     public static Object[][] getQuestionsAndAnswers() {
         return new Object[][]{
                 {0, "Сутки — 400 рублей. Оплата курьеру — наличными или картой."},
@@ -40,16 +34,8 @@ public class FAQTest {
 
     @Test
     public void testFAQAnswer() {
-        ChromeOptions options = new ChromeOptions();
-        options.addArguments("--no-sandbox", "--headless", "--disable-dev-shm-usage");
-        driver = new ChromeDriver(options);
-
-        driver.get("https://qa-scooter.praktikum-services.ru/");
-
-        MainPage mainPage = new MainPage(driver);
         FAQPage faqPage = new FAQPage(driver);
 
-        mainPage.acceptCookies();
         mainPage.scrollToFAQSection();
         faqPage.clickQuestion(questionIndex);
 
@@ -58,8 +44,4 @@ public class FAQTest {
                 expectedAnswerPart, actualAnswer);
     }
 
-    @After
-    public void tearDown() {
-        driver.quit();
-    }
 }
